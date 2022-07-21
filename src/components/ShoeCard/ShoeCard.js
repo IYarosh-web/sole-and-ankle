@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 
 import { COLORS, WEIGHTS } from '../../constants';
-import { formatPrice, pluralize, isNewShoe } from '../../utils';
+import { formatPrice, pluralize, isNewShoe, formatVariant } from '../../utils';
 import Spacer from '../Spacer';
 
 const ShoeCard = ({
@@ -45,6 +45,7 @@ const ShoeCard = ({
         <Row>
           <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
         </Row>
+        {variant !== "default" && <Badge variant={variant}>{formatVariant(variant)}</Badge>}
       </Wrapper>
     </Link>
   );
@@ -58,15 +59,19 @@ const Link = styled.a`
 `;
 
 const Wrapper = styled.article`
+  position: relative;
+  border-radius: 4px;
 `;
 
 const ImageWrapper = styled.div`
   position: relative;
+  display: flex;
+  border-radius: 16px 16px 4px 4px;
+  overflow: hidden;
 `;
 
 const Image = styled.img`
   width: 100%;
-  height: 100%;
 `;
 
 const Row = styled.div`
@@ -88,5 +93,22 @@ const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
   color: ${COLORS.primary};
 `;
+
+const Badge = styled.div`
+  position: absolute;
+  padding: 8px;
+  top: 12px;
+  right: -4px;
+  font-weight: ${WEIGHTS.bold};
+  color: ${COLORS.white};
+
+  ${p => p.variant === "new-release" && {
+    background: COLORS.secondary,
+  }}
+
+  ${p => p.variant === "on-sale" && {
+    background: COLORS.primary,
+  }}
+`
 
 export default ShoeCard;
